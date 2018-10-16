@@ -10,7 +10,7 @@ The program is designed so that you or I as the coder determine how detailed the
 
 WHY I MADE THIS
 
-I am new to C! I created this program for fun and thought it would be a good first thing to share up here. If you have taken the time to check it out, and youre an experienced C coder and have advice or suggestions about the content, form or style I'd love to hear your feedback! If you are seeing this and you are also a C beginner, feel free to collaborate however you see fit and we can get to know this stuff together.
+I am new to C! I created this program for fun and thought it would be a good first thing to share up here. If you have taken the time to check it out and youre an experienced C coder I'd love to hear your advice or suggestions about the content, form or style! If you are seeing this and you are also a C beginner, feel free to collaborate however you see fit and we can get to know this stuff together.
 
 Thanks all!
 
