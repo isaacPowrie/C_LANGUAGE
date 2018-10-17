@@ -7,8 +7,8 @@
 #define PI 3.14159
 #define ACCTIME 3
 
-#define ERROR 0.00000000001
-#define TIMESCALE 1
+#define ERROR 0.00000001
+#define TIMESCALE 0.0001
 
 // Velocity
 double velocity(int F, int m)
@@ -67,7 +67,7 @@ double sineOf(int angle)
 // Cosine
 double cosineOf(int angle)
 {
-	double rads, expnt, diff, cur_val;
+	double rads, expnt, diff, cur_val, root_diff, root, place;
 	int count, start, sign, i, denom;
 
 	//Calculate Rads
@@ -98,9 +98,33 @@ double cosineOf(int angle)
 		count += 1;
 	} while (diff > ERROR || -diff > ERROR);
 
+	// Round Output
+	//
+	/*cur_val = cur_val + (5 * ERROR / 10);
+	cur_val = cur_val / ERROR;
+	cur_val = (long long)cur_val;
+	cur_val = cur_val * ERROR;*/
+
 	// Calculate Cosine
-	  //
+	//
 	cur_val = 1 - cur_val * cur_val;
+
+	//SQRT(cur_val)
+	//
+	root_diff = 0;
+	root = cur_val;
+	place = 1;
+	do {
+		if (0 < cur_val - root * root) {
+			root += 0.1 * place;
+		} else {
+			root -= 0.1 * place;
+			place *= 0.1;
+		}
+		
+	} while (place >= ERROR);
+
+	cur_val = root;
 
 	// Round Output
 	//
@@ -113,14 +137,15 @@ double cosineOf(int angle)
 }
 
 // Assign Difference Values
-void setChangeVars(double v, double sine, double cosine, double *dx, double *dy)
+void setChangeVars(double v, double sine, double cosine, double *dx, double *dy, double *dt)
 {
 	double yPerSec, xPerSec;
 
 	yPerSec = v * cosine;
 	xPerSec = v * sine;
-	*dy = TIMESCALE;
-	*dx = (xPerSec / yPerSec) * TIMESCALE;
+	*dt = TIMESCALE;
+	*dy = yPerSec * TIMESCALE;
+	*dx = xPerSec * TIMESCALE;
 
 	return;
 }
@@ -131,10 +156,10 @@ double decel(double dx, double dy, double v, double sine, double cosine)
 	double grav, xPerSec, yPerSec;
 
 	yPerSec = v * cosine;
-	xPerSec = (dx * yPerSec) / TIMESCALE;
+	xPerSec = dx / TIMESCALE;
 	xPerSec -= GRAV * TIMESCALE;
 
-	dx = (xPerSec / yPerSec) * TIMESCALE;
+	dx = xPerSec * TIMESCALE;
 
 	return dx;
 }
