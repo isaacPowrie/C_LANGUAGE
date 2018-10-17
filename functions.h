@@ -13,26 +13,26 @@
 // Velocity
 double velocity(int F, int m)
 {
-  double a, v;
-  a = F / m;
-  v = a * ACCTIME;
+	double a, v;
+	a = F / m;
+	v = a * ACCTIME;
 
-  return v;
+	return v;
 }
 
 // Sine
 double sineOf(int angle)
 {
-  double rads, expnt, diff, cur_val;
-  int count, start, sign, i, denom;
+	double rads, expnt, diff, cur_val;
+	int count, start, sign, i, denom;
 
-  //Calculate Rads
-  //
-  rads = angle * PI / 180;
+	//Calculate Rads
+	//
+	rads = angle * PI / 180;
 
-  //Calculate Sine
-  //
-  count = 1;
+	//Calculate Sine
+	//
+	count = 1;
 	start = 1;
 	sign = 1;
 	cur_val = 0;
@@ -54,29 +54,29 @@ double sineOf(int angle)
 		count += 1;
 	} while (diff > ERROR || -diff > ERROR);
 
-  // Round Output
-  //
-  cur_val = cur_val + (5 * ERROR / 10);
-  cur_val = cur_val / ERROR;
-  cur_val = (long long)cur_val;
-  cur_val = cur_val * ERROR;
+	// Round Output
+	//
+	cur_val = cur_val + (5 * ERROR / 10);
+	cur_val = cur_val / ERROR;
+	cur_val = (long long)cur_val;
+	cur_val = cur_val * ERROR;
 
-  return cur_val;
+	return cur_val;
 }
 
 // Cosine
 double cosineOf(int angle)
 {
-  double rads, expnt, diff, cur_val;
-  int count, start, sign, i, denom;
+	double rads, expnt, diff, cur_val;
+	int count, start, sign, i, denom;
 
-  //Calculate Rads
-  //
-  rads = angle * PI / 180;
+	//Calculate Rads
+	//
+	rads = angle * PI / 180;
 
-  //Calculate Sine
-  //
-  count = 1;
+	//Calculate Sine
+	//
+	count = 1;
 	start = 1;
 	sign = 1;
 	cur_val = 0;
@@ -98,40 +98,43 @@ double cosineOf(int angle)
 		count += 1;
 	} while (diff > ERROR || -diff > ERROR);
 
-  // Calculate Cosine
-	//
+	// Calculate Cosine
+	  //
 	cur_val = 1 - cur_val * cur_val;
 
-  // Round Output
-  //
-  cur_val = cur_val + (5 * ERROR / 10);
-  cur_val = cur_val / ERROR;
-  cur_val = (long long)cur_val;
-  cur_val = cur_val * ERROR;
+	// Round Output
+	//
+	cur_val = cur_val + (5 * ERROR / 10);
+	cur_val = cur_val / ERROR;
+	cur_val = (long long)cur_val;
+	cur_val = cur_val * ERROR;
 
-  return cur_val;
+	return cur_val;
 }
 
-// Difference X
-void setChangeVars(double v, double sine, double cosine, double *dx, double *secs)
+// Assign Difference Values
+void setChangeVars(double v, double sine, double cosine, double *dx, double *dy)
 {
-  double yPerSec, xPerSec;
+	double yPerSec, xPerSec;
 
-  yPerSec = v * cosine;
-  xPerSec = v * sine;
-  *dx = xPerSec / yPerSec;
-  *secs = TIMESCALE / yPerSec;
+	yPerSec = v * cosine;
+	xPerSec = v * sine;
+	*dy = TIMESCALE;
+	*dx = (xPerSec / yPerSec) * TIMESCALE;
 
-  return;
+	return;
 }
 
 // Deceleracte With Gravity
-double Decel(double dx, double secs)
+double decel(double dx, double dy, double v, double sine, double cosine)
 {
-  double grav;
+	double grav, xPerSec, yPerSec;
 
-  grav = GRAV * secs;
-  dx -= grav;
+	yPerSec = v * cosine;
+	xPerSec = (dx * yPerSec) / TIMESCALE;
+	xPerSec -= GRAV * TIMESCALE;
 
-  return dx;
+	dx = (xPerSec / yPerSec) * TIMESCALE;
+
+	return dx;
 }
