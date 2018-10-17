@@ -16,7 +16,8 @@
 int main(void)
 {
 	int angle, m, F;
-	double sine, cosine, v, dy, dx;
+	double sine, cosine, v, dy, dx, dt;
+	double time = 0;
 	double height = 0;
 	double distance = 0;
 	double maxHeight = 0;
@@ -38,7 +39,7 @@ int main(void)
 		v = velocity(F, m);
 		sine = sineOf(angle);
 		cosine = cosineOf(angle);
-		setChangeVars(v, sine, cosine, &dx, &dy);
+		setChangeVars(v, sine, cosine, &dx, &dy, &dt);
 	}
 
 	// Calculate Points of Arc
@@ -48,12 +49,15 @@ int main(void)
 			dx = decel(dx, dy, v, sine, cosine);
 			height += dx;
 			distance += dy;
+			time += dt;
 			maxHeight = maxHeight < height ? height : maxHeight;
 		} while (height >= 0);
 	}
 
-	printf("\nTotal Distance: %.2lf\n", distance);
+	printf("\n");
+	printf("\nHorizontal Distance: %.2lf\n", distance);
 	printf("\nMaximum Height: %.2lf\n", maxHeight);
+	printf("\nElapsed Time: %.2lf\n", time);
 
 	return 0;
 }
