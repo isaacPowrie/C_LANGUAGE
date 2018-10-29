@@ -55,8 +55,8 @@ int main(void)
 	}
 
 	printf("\n");
-	printf("\nHorizontal Distance: %.2lf\n", distance);
-	printf("\nMaximum Height: %.2lf\n", maxHeight);
+	printf("\nHorizontal Distance: %.8lf\n", distance);
+	printf("\nMaximum Height: %.8lf\n", maxHeight);
 	printf("\nElapsed Time: %.2lf\n", time);
 
 	return 0;
