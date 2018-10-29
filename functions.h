@@ -7,8 +7,11 @@
 #define PI 3.14159
 #define ACCTIME 3
 
-#define ERROR 0.00000001
+#define ERROR 0.00000000001
 #define TIMESCALE 0.0001
+
+#define DEC 10
+#define SIGDIG 14
 
 // Velocity
 double velocity(int F, int m)
@@ -18,6 +21,87 @@ double velocity(int F, int m)
 	v = a * ACCTIME;
 
 	return v;
+}
+
+// Find Start for SQURT
+float find_start(double num)
+{
+  double search, first_sig = 1;
+
+  search = num;
+  if (search >= 1) {
+    search /= DEC;
+    while (search > 1) {
+      search /= DEC;
+      first_sig *= DEC;
+    }
+  } else if (search < 1) {
+    while (search < 1) {
+      search *= DEC;
+      first_sig /= DEC;
+    }
+  } else {
+    first_sig = 0;
+  }
+
+  return first_sig;
+}
+
+// Calculate Square Root
+double squrt(double num)
+{
+  int i = 0;
+  double search, root, check;
+	double first_sig = 1;
+
+	search = num;
+  if (search >= 1) {
+    search /= DEC;
+    while (search > 1) {
+      search /= DEC;
+      first_sig *= DEC;
+    }
+  } else if (search < 1) {
+    while (search < 1) {
+      search *= DEC;
+      first_sig /= DEC;
+    }
+  } else {
+    first_sig = 0;
+  }
+
+  search = first_sig;
+	root = num;
+  if (root * root != num && root > 1) {
+    do {
+      root -= search;
+    } while (root * root > num);
+
+    while (root * root != num && i < SIGDIG) {
+      root += search;
+      search /= DEC;
+      i++;
+      do {
+        root -= search;
+      } while (root * root > num);
+    }
+  } else {
+    root = search;
+    while (root * root < num) {
+      root += search;
+    }
+
+    while (root * root != num && i < SIGDIG) {
+      root -= search;
+      search /= DEC;
+      i++;
+      do {
+        root += search;
+      } while (root * root < num);
+    }
+  }
+
+  return root;
 }
 
 // Sine
@@ -67,7 +151,7 @@ double sineOf(int angle)
 // Cosine
 double cosineOf(int angle)
 {
-	double rads, expnt, diff, cur_val, root_diff, root, place;
+	double rads, expnt, diff, cur_val;
 	int count, start, sign, i, denom;
 
 	//Calculate Rads
@@ -98,33 +182,10 @@ double cosineOf(int angle)
 		count += 1;
 	} while (diff > ERROR || -diff > ERROR);
 
-	// Round Output
-	//
-	/*cur_val = cur_val + (5 * ERROR / 10);
-	cur_val = cur_val / ERROR;
-	cur_val = (long long)cur_val;
-	cur_val = cur_val * ERROR;*/
-
 	// Calculate Cosine
 	//
 	cur_val = 1 - cur_val * cur_val;
-
-	//SQRT(cur_val)
-	//
-	root_diff = 0;
-	root = cur_val;
-	place = 1;
-	do {
-		if (0 < cur_val - root * root) {
-			root += 0.1 * place;
-		} else {
-			root -= 0.1 * place;
-			place *= 0.1;
-		}
-		
-	} while (place >= ERROR);
-
-	cur_val = root;
+	cur_val = squrt(cur_val);
 
 	// Round Output
 	//
