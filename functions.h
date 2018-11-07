@@ -1,17 +1,11 @@
 // Functions for Arc Calculation
-// functions.h
+// functions.c
 // Isaac Powrie
-// 2018-10-16
+// 2018-11-06
 
-#define GRAV 9.8
-#define PI 3.14159
-#define ACCTIME 3
+#include <stdio.h>
 
-#define ERROR 0.00000000001
-#define TIMESCALE 0.0001
-
-#define DEC 10
-#define SIGDIG 14
+#include "theArc.h"
 
 // Velocity
 double velocity(int F, int m)
@@ -23,85 +17,61 @@ double velocity(int F, int m)
 	return v;
 }
 
-// Find Start for SQURT
-float find_start(double num)
-{
-  double search, first_sig = 1;
-
-  search = num;
-  if (search >= 1) {
-    search /= DEC;
-    while (search > 1) {
-      search /= DEC;
-      first_sig *= DEC;
-    }
-  } else if (search < 1) {
-    while (search < 1) {
-      search *= DEC;
-      first_sig /= DEC;
-    }
-  } else {
-    first_sig = 0;
-  }
-
-  return first_sig;
-}
-
 // Calculate Square Root
 double squrt(double num)
 {
-  int i = 0;
-  double search, root, check;
+	int i = 0;
+	double search, root, check;
 	double first_sig = 1;
 
 	search = num;
-  if (search >= 1) {
-    search /= DEC;
-    while (search > 1) {
-      search /= DEC;
-      first_sig *= DEC;
-    }
-  } else if (search < 1) {
-    while (search < 1) {
-      search *= DEC;
-      first_sig /= DEC;
-    }
-  } else {
-    first_sig = 0;
-  }
+	if (search >= 1) {
+		search /= DEC;
+		while (search > 1) {
+			search /= DEC;
+			first_sig *= DEC;
+		}
+	} else if (search < 1) {
+		while (search < 1) {
+			search *= DEC;
+			first_sig /= DEC;
+		}
+	} else {
+		first_sig = 0;
+	}
 
-  search = first_sig;
+	search = first_sig;
 	root = num;
-  if (root * root != num && root > 1) {
-    do {
-      root -= search;
-    } while (root * root > num);
+	if (root * root != num && root > 1) {
+		do {
+			root -= search;
+		} while (root * root > num);
 
-    while (root * root != num && i < SIGDIG) {
-      root += search;
-      search /= DEC;
-      i++;
-      do {
-        root -= search;
-      } while (root * root > num);
-    }
-  } else {
-    root = search;
-    while (root * root < num) {
-      root += search;
-    }
+		while (root * root != num && i < SIGDIG) {
+			root += search;
+			search /= DEC;
+			i++;
+			do {
+				root -= search;
+			} while (root * root > num);
+		}
+	} else {
+		root = search;
+		while (root * root < num) {
+			root += search;
+		}
 
-    while (root * root != num && i < SIGDIG) {
-      root -= search;
-      search /= DEC;
-      i++;
-      do {
-        root += search;
-      } while (root * root < num);
-    }
-  }
+		while (root * root != num && i < SIGDIG) {
+			root -= search;
+			search /= DEC;
+			i++;
+			do {
+				root += search;
+			} while (root * root < num);
+		}
+	}
 
-  return root;
+	return root;
 }
 
 // Sine
