@@ -1,0 +1,122 @@
+// This file exists to store a long, modifiable list of 
+// stored puzzles for single player mode.
+//
+// comp_puzzles.c
+// Isaac Powrie
+
+#include <stdio.h>
+#include "hangman.h"
+
+void load_comp_puzzles(char puzzles[][SIZE + 1]) 
+{
+	int i, j;
+
+	char stored_pzls[PZL_NUM][SIZE + 1] = {
+	{"Planet earth"},
+	{"one small step for man"},
+	{"notes from the underground"},
+	{"romeo and juliet"},
+	{"the wealth of nations"},
+	{"ninety nine percent perspiration"},
+	{"euclid's elements"},
+	{"eureka! I've got it!"},
+	{"The sand reckoner"},
+	{"dodecahedron"},
+	{"loch ness monster"},
+	{"bartelby the scribner"},
+	{"animal farm"},
+	{"zarathustra"},
+	{"it's a wonderful life"},
+	{"love's labours lost"},
+	{"malvolio's socks"},
+	{"opium wars"},
+	{"great barrier reef"},
+	{"Mt. St. Helen"},
+	{"gros morne"},
+	{"paradise lost"},
+	{"the divine comedy"},
+	{"war horse"},
+	{"long day's journey into night"},
+	{"the four seasons"},
+	{"appocalypse now"},
+	{"gangs of new york"},
+	{"there will be blood"},
+	{"sunshine cleaners"},
+	{"get out"},
+	{"the origin of species"},
+	{"the voyage of the beagle"},
+	{"napoleon bonaparte"},
+	{"Gaius Julius Caesar"},
+	{"Cassius Dio"},
+	{"lysistrata"},
+	{"the theban plays"},
+	{"raspberry pi"},
+	{"queen boudica"},
+	{"arminius the traitor"},
+	{"aol dial up"},
+	{"nicholas cage"},
+	{"lolcats"},
+	{"mango smoothie"},
+	{"pop's malt shop"},
+	{"stranger things"},
+	{"it's always sunny in philadelphia"},
+	{"Kim's convenience"},
+	{"shaka zulu"},
+	{"bakeapple"},
+	{"pitcher plant"},
+	{"port aux basques"},
+	{"rocky mountains"},
+	{"tecumseth"},
+	{"pacific ocean"},
+	{"mariana trench"},
+	{"sargaso sea"},
+	{"pillars of hercules"},
+	{"hokkaido"},
+	{"treaty of versailles"},
+	{"good friday agreement"},
+	{"the north pole"},
+	{"cliffs of moher"},
+	{"cliffs of dover"},
+	{"comedy of errors"},
+	{"rosencrantz and guildenstern"},
+	{"bruce trail"},
+	{"pride and prejudice"},
+	{"bastille day"},
+	{"shenandoah valley"},
+	{"pickett's charge"},
+	{"sherman's march"},
+	{"bridge on the bosphorus"},
+	{"cleopatra"},
+	{"yogi bear"},
+	{"mickey mouse"},
+	{"Isaac Asimov"},
+	{"richard stallman"},
+	{"the eternal hydra"},
+	{"timen of athens"},
+	{"the bridge on the drina"},
+	{"the big dipper"},
+	{"winnipeg"},
+	{"doctor who"},
+	{"pictographs"},
+	{"crime and punishment"},
+	{"the great gatsby"},
+	{"the old man and the sea"},
+	{"sense and sensibility"},
+	{"fear and loathing"},
+	{"turtle island"},
+	{"mount everest"},
+	{"zambezi river"},
+	{"kilimanjaro"},
+	{"uluru"},
+	{"shaun of the dead"},
+	{"the descent of man"},
+	{"louis riel"},
+	{"all's well that ends well"}
+	};
+
+	for (i = 0; i < PZL_NUM; i++) {
+		for (j = 0; j <= SIZE; j++) {
+			puzzles[i][j] = stored_pzls[i][j];
+		}
+	}
+}
