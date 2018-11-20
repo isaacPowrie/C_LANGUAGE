@@ -17,7 +17,7 @@ README file for a 2D Hangman Game
 -Hangman Quarterly
 
 PURPOSE
-  So seriously, this is a simple 2D hangman game I created using C. I am trying to implement modular code, so there are several different sections to this program. I tried to include any game specific functionality in "hangman.c" while more general functionality is housed in "helpers.c". The main function is just an initializer for the real program and the header functions correspond to the source files!
+  So seriously, this is a simple 2D hangman game I created using C. I am trying to implement modular code, so there are several different sections to this program. I tried to include any game specific functionality in "funcs.c" while more general functionality is housed in "helpers.c". The main function is just an initializer for the real program and the header functions correspond to the source files!
   
 THE GAME
   If you are trying it out, the gameplay is pretty straightforward. There is a computer generated option as well as a user entered choice. You select a letter and the program determines if you have revealed more of the solution, or more of the unfortunate 2D man whose life is in your hands. The game remembers your choices and does not allow repeated guesses.
