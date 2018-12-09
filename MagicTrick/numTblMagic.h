@@ -1,4 +1,10 @@
 /*
+Isaac Powrie
+2018-12-08
+numTblMagic.c
+*/
+
+/*
 Contains the struct definition for tables, as well
 as the headers and descriptions of files
 */
