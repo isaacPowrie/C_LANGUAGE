@@ -1,5 +1,12 @@
 /*
-Functionality of numTblMagic
+Isaac Powrie
+2018-12-08
+numTblMagic.c
+*/
+
+/*
+Functionality of numTblMagic, more detailed high-level
+description of functions in "numTblMagic.h" header file.
 */
 
 #include <stdio.h>
