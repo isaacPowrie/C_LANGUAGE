@@ -42,7 +42,7 @@ void playGame(struct TablesMeta* tbls)
 	int tlbNum = 1;
 	int userChoices[MAX_TBLS] = { 0 };
 
-	// Set up the display of cards for user choice
+	// Set up the display of tables for user choice
 	userChoice(userChoices, tbls);
 
 	// Determine the user's secret number
@@ -88,7 +88,7 @@ void userChoice(int* userChoices, struct TablesMeta* tbls)
 	// the tables and select those which contain their
 	// secret number
 	while (com != 'd') {
-		printf("Choose a number from one of the cards and then\n"
+		printf("Choose a number from one of the tables and then\n"
 			"'select' each table which contains that number.\n");
 		printf("_______________________________\n");
 		printf("|==|--- TABLE NUMBER %d ---|==|\n\n", curTbl);
