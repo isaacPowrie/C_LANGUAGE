@@ -5,6 +5,8 @@
 // body.h
 // 2018-11-20
 
+#ifndef FUNCS
+#define FUNCS
 #define FUNC_SIZE 30
 #define NUM_OPTS 4
 #define FNAME_SIZE 30
@@ -53,3 +55,4 @@ void printSin(struct Function *);
 //
 void printCos(struct Function *);
 
+#endif //FUNCS
