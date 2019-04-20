@@ -8,8 +8,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "helpers.h"
-
-#define PI 3.14159265358979323846
+#include "body.h"
 
 /*
 DETAILED DESCRIPTIONS OF FUNCTIONS IN HEADER FILES
@@ -65,6 +64,28 @@ void showQuad(struct Function* function, int option)
 void showSine(struct Function* function, int option)
 {
 	if (option == 0) {
+		printf("\ty = %csin(x + %c) + %c\n",
+			function->m, function->c, function->b);
+	} else {
+		char b_sign = '+';
+		char c_sign = '+';
+		if (function->b_val < 0) {
+			b_sign = '-';
+		}
+		if (function->c_val < 0) {
+			c_sign = '-';
+		}
+		printf("\ty = %dsin(x %c %d) %c %d\n",
+			function->m_val, c_sign, abs(function->c_val), b_sign, abs(function->b_val));
+	}
+}
+
+// Show Cosine function when given a
+// Function struct
+//
+void showCosine(struct Function* function, int option)
+{
+	if (option == 0) {
 		printf("\ty = %ccos(x + %c) + %c\n",
 			function->m, function->c, function->b);
 	} else {
@@ -79,40 +100,6 @@ void showSine(struct Function* function, int option)
 		printf("\ty = %dcos(x %c %d) %c %d\n",
 			function->m_val, c_sign, abs(function->c_val), b_sign, abs(function->b_val));
 	}
-}
-
-// Show Cosine function when given a
-// Function struct
-//
-void showCosine(struct Function* function, int option)
-{
-	if (option == 0) {
-		printf("\ty = %ccos(x + %c) + %c\n", 
-			function->m, function->c, function->b);
-	} else {
-		char b_sign = '+';
-		char c_sign = '+';
-		if (function->b_val < 0) {
-			b_sign = '-';
-		}
-		if (function->c_val < 0) {
-			c_sign = '-';
-		}
-		printf("\ty = %dcos(x %c %d) %c %d\n", 
-			function->m_val, c_sign, abs(function->c_val), b_sign, abs(function->b_val));
-	}
-}
-
-// toRads function takes a degree value for an angle 
-// and converts it to radians
-//
-double toRads(double angle)
-{
-	double rads;
-
-	rads = angle * PI / 180.0;
-
-	return rads;
 }
 
 // clearKeyboard
@@ -150,7 +137,7 @@ int yes_or_no(void)
 	} while (val < 0);
 
 	return val;
-	
+
 }
 
 // option in range function
@@ -178,19 +165,6 @@ void getInt(int *chng_var, char constant)
 	system("cls");
 }
 
-// Get start for x
-//
-int getStartingX(void)
-{
-	int x = 0;
-
-	printf("Enter a starting integer for x: ");
-	x = option_in_range(-100000, 100000);
-	system("cls");
-
-	return x;
-}
-
 // Get name for file
 //
 void createFileName(char filename[])
@@ -208,4 +182,25 @@ void pause(void)
 {
 	printf("<press enter to continue> ");
 	scanf("*%[]");
+}
+
+// Print graph image svg
+//
+void printGraph(FILE * svg)
+{
+	int i = 0;
+	fprintf(svg, 
+		"<path fill=\"none\" stroke=\"grey\" stroke-width=\"1px\" d=\"M 0 300 L 900 300 Z M 450 0 L 450 600 Z\" />\n"
+		"<path fill=\"none\" stroke=\"grey\" stroke-width=\"1px\" d=\" \n"
+		"M 50 298 l 0 4\n");
+	for (i = 0; i < 16; i++) {
+		fprintf(svg, "m 50 -4 l 0 4\n");
+	}
+	fprintf(svg, "\"/>\n");
+	fprintf(svg, "<path fill=\"none\" stroke=\"grey\" stroke-width=\"1px\" d=\" \n"
+		"M 448 50 l 4 0\n");
+	for (i = 0; i < 10; i++) {
+		fprintf(svg, "m -4 50 l 4 0\n");
+	}
+	fprintf(svg, "\"/>\n");
 }
