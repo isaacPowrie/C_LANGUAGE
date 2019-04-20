@@ -4,14 +4,19 @@
 // Isaac Powrie
 // helpers.h
 // 2018-11-20
+
+#ifndef FUNCSHELPS
+#define FUNCSHELPS
 #include "body.h"
 
+#define PI 3.14159265358979323846
+
 /*
-	The Following "Show" function display the text of the 
+	The Following "Show" function display the text of the
 	functions which will be executed and written to files.
-	The option parameter allows for the caller to 
+	The option parameter allows for the caller to
 	determine to display the letter values for constants
-	(by passing 0) or to display the integer values in 
+	(by passing 0) or to display the integer values in
 	which will be passed through (any non zero argument)
 */
 // Show Linear function when given a
@@ -34,11 +39,6 @@ void showSine(struct Function*, int option);
 //
 void showCosine(struct Function*, int option);
 
-// toRads function takes a degree value for an angle 
-// and converts it to radians
-//
-double toRads(double angle);
-
 // clearKeyboard
 // Clear the standard input buffer
 //
@@ -60,11 +60,6 @@ int option_in_range(int min, int max);
 //
 void getInt(int *, char);
 
-// Get start for x, prompts user to input a starting
-// integer for x
-//
-int getStartingX(void);
-
 // Get name for file, takes an empty string and
 // obtains user input for filename
 //
@@ -73,3 +68,9 @@ void createFileName(char filename[]);
 // Pause, pauses action until user enters a key
 //
 void pause(void);
+
+// Print graph image svg
+//
+void printGraph(FILE * svg);
+
+#endif //FUNCSHELPS
