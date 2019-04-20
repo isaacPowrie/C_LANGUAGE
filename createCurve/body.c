@@ -17,7 +17,7 @@ int menu(void)
 {
 	int selection;
 	struct Function function = {
-		{ 0 }, 'm', 0, 'b', 0, 'c', 0 
+		{ 0 }, 'm', 0, 'b', 0, 'c', 0
 	};
 
 	printf("|---- Enter Number to Select ----|\n\n"
@@ -159,20 +159,33 @@ void printLin(struct Function *function)
 	double x = 0;
 	double y = 0;
 	int i, x_strt;
+	double y_strt;
 
-	x_strt = getStartingX();
+	x_strt = -450;
+	y_strt = x_strt + (double)function->c_val;
+	y_strt *= (double)function->m_val;
+	y_strt += (double)function->b_val;
 	createFileName(filename);
 
 	FILE *csvfp = fopen(filename, "w");
-	fprintf(csvfp, "X_VALUES,Y_VALUES\n");
+	fprintf(csvfp,
+		"<?xml version = \"1.0\" encoding = \"UTF-8\"?>\n"
+		"<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n"
+		"<?xml-stylesheet href = \"\" type = \"text/css\"?>\n"
+		"<svg width=\"900\" height=\"600\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+	printGraph(csvfp);
+	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -y_strt + 300);
 	for (i = 0; i < SHEET_SIZE; i++) {
 		x = (double)x_strt + (double)i / 10;
 		y = x + (double)function->c_val;
 		y *= (double)function->m_val;
 		y += (double)function->b_val;
 
-		fprintf(csvfp, "%lf,%lf\n", x, y);
+		fprintf(csvfp, "%lf %lf\n", x + 450, -y + 300);
 	}
+	fprintf(csvfp, "\" />\n"
+		"<rect x=\"0\" y=\"0\" width=\"900\" height=\"600\" stroke-width=\"3px\" fill=\"none\" stroke=\"black\"/>\n"
+		"</svg>");
 	fclose(csvfp);
 }
 
@@ -185,20 +198,33 @@ void printQuad(struct Function *function)
 	double x = 0;
 	double y = 0;
 	int i, x_strt;
+	double y_strt;
 
-	x_strt = getStartingX();
+	x_strt = -450;
+	y_strt = pow((x_strt + (double)function->c_val), 2);
+	y_strt *= (double)function->m_val;
+	y_strt += (double)function->b_val;
 	createFileName(filename);
 
 	FILE *csvfp = fopen(filename, "w");
-	fprintf(csvfp, "X_VALUES,Y_VALUES\n");
-	for (i = 0; i < SHEET_SIZE; i++) {
-		x = (double)x_strt + (double)i / 1000;
+	fprintf(csvfp,
+		"<?xml version = \"1.0\" encoding = \"UTF-8\"?>\n"
+		"<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n"
+		"<?xml-stylesheet href = \"\" type = \"text/css\"?>\n"
+		"<svg width=\"900\" height=\"600\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+		printGraph(csvfp);
+	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -y_strt + 300);
+	for (i = 1; i < SHEET_SIZE; i++) {
+		x = (double)x_strt + (double)i / 10;
 		y = pow((x + (double)function->c_val), 2);
 		y *= (double)function->m_val;
 		y += (double)function->b_val;
 
-		fprintf(csvfp, "%lf,%lf\n", x, y);
+		fprintf(csvfp, "%lf %lf\n", x - x_strt, -y + 300);
 	}
+	fprintf(csvfp, "\" />\n"
+		"<rect x=\"0\" y=\"0\" width=\"900\" height=\"600\" stroke-width=\"3px\" fill=\"none\" stroke=\"black\"/>\n"
+		"</svg>");
 	fclose(csvfp);
 }
 
@@ -210,22 +236,34 @@ void printSin(struct Function *function)
 	char filename[FILENAME_MAX];
 	double x = 0;
 	double y = 0;
-	int i, x_strt;
+	int i;
+	double y_strt, x_strt;
 
-	x_strt = getStartingX();
+	x_strt = -4.5;
+	y_strt = sin(x_strt + (double)function->c_val);
+	y_strt *= (double)function->m_val;
+	y_strt += (double)function->b_val;
 	createFileName(filename);
 
 	FILE *csvfp = fopen(filename, "w");
-	fprintf(csvfp, "X_VALUES,Y_VALUES\n");
+	fprintf(csvfp,
+		"<?xml version = \"1.0\" encoding = \"UTF-8\"?>\n"
+		"<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n"
+		"<?xml-stylesheet href = \"\" type = \"text/css\"?>\n"
+		"<svg width=\"900\" height=\"600\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+	printGraph(csvfp);
+	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -(y_strt * 100) + 300);
 	for (i = 0; i < SHEET_SIZE; i++) {
-		x = (double)x_strt + (double)i / 10;
-		x = toRads(x);
+		x = x_strt + (double)i / 1000;
 		y = sin(x + (double)function->c_val);
 		y *= (double)function->m_val;
 		y += (double)function->b_val;
 
-		fprintf(csvfp, "%lf,%lf\n", x, y);
+		fprintf(csvfp, "%lf %lf\n", (x * 100) + 450, -(y * 100) + 300);
 	}
+	fprintf(csvfp, "\" />\n"
+		"<rect x=\"0\" y=\"0\" width=\"900\" height=\"600\" stroke-width=\"3px\" fill=\"none\" stroke=\"black\"/>\n"
+		"</svg>");
 	fclose(csvfp);
 }
 
@@ -237,22 +275,33 @@ void printCos(struct Function *function)
 	char filename[FILENAME_MAX];
 	double x = 0;
 	double y = 0;
-	int i, x_strt;
+	int i;
+	double y_strt, x_strt;
 
-	x_strt = getStartingX();
+	x_strt = -4.5;
+	y_strt = cos(x_strt + (double)function->c_val);;
+	y_strt *= (double)function->m_val;
+	y_strt += (double)function->b_val;
 	createFileName(filename);
 
 	FILE *csvfp = fopen(filename, "w");
-	fprintf(csvfp, "X_VALUES,Y_VALUES\n");
+	fprintf(csvfp,
+		"<?xml version = \"1.0\" encoding = \"UTF-8\"?>\n"
+		"<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n"
+		"<?xml-stylesheet href = \"\" type = \"text/css\"?>\n"
+		"<svg width=\"900\" height=\"600\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+	printGraph(csvfp);
+	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -(y_strt * 100) + 300);
 	for (i = 0; i < SHEET_SIZE; i++) {
-		x = (double)x_strt + (double)i / 10;
-		x = toRads(x);
+		x = x_strt + (double)i / 10;
 		y = cos(x + (double)function->c_val);
 		y *= (double)function->m_val;
 		y += (double)function->b_val;
 
-		fprintf(csvfp, "%lf,%lf\n", x, y);
+		fprintf(csvfp, "%lf %lf\n", (x * 100) + 450, -(y * 100) + 300);
 	}
+	fprintf(csvfp, "\" />\n"
+		"<rect x=\"0\" y=\"0\" width=\"900\" height=\"600\" stroke-width=\"3px\" fill=\"none\" stroke=\"black\"/>\n"
+		"</svg>");
 	fclose(csvfp);
 }
-
