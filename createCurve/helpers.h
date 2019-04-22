@@ -4,6 +4,7 @@
 // Isaac Powrie
 // helpers.h
 // 2018-11-20
+#include <stdio.h>
 #include "body.h"
 
 /*
