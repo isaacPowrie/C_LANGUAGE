@@ -20,7 +20,7 @@ DETAILED DESCRIPTIONS OF FUNCTIONS IN HEADER FILES
 void showLinear(struct Function* function, int option)
 {
 	if (option == 0) {
-		printf("\ty = %c(x + %c) + %c\n",
+		printf("\ty = [%c](x + [%c]) + [%c]\n\n",
 			function->m, function->c, function->b);
 	} else {
 		char b_sign = '+';
@@ -42,7 +42,7 @@ void showLinear(struct Function* function, int option)
 void showQuad(struct Function* function, int option)
 {
 	if (option == 0) {
-		printf("\ty = %c(x + %c)^2 + %c\n",
+		printf("\ty = [%c](x + [%c])^2 + [%c]\n\n",
 			function->m, function->c, function->b);
 	} else {
 		char b_sign = '+';
@@ -64,8 +64,8 @@ void showQuad(struct Function* function, int option)
 void showSine(struct Function* function, int option)
 {
 	if (option == 0) {
-		printf("\ty = %csin(x + %c) + %c\n",
-			function->m, function->c, function->b);
+		printf("\ty = [%c]sin([%c]x + [%c]) + [%c]\n\n",
+			function->m, function->t, function->c, function->b);
 	} else {
 		char b_sign = '+';
 		char c_sign = '+';
@@ -75,8 +75,9 @@ void showSine(struct Function* function, int option)
 		if (function->c_val < 0) {
 			c_sign = '-';
 		}
-		printf("\ty = %.2fsin(x %c %.2f) %c %.2f\n",
-			function->m_val, c_sign, fabs(function->c_val), b_sign, fabs(function->b_val));
+
+		printf("\ty = %.2fsin(%.2fx %c %.2f) %c %.2f\n\n",
+			function->m_val, function->t_val, c_sign, fabs(function->c_val), b_sign, fabs(function->b_val));
 	}
 }
 
@@ -86,8 +87,8 @@ void showSine(struct Function* function, int option)
 void showCosine(struct Function* function, int option)
 {
 	if (option == 0) {
-		printf("\ty = %ccos(x + %c) + %c\n",
-			function->m, function->c, function->b);
+		printf("\ty = [%c]cos([%c]x + [%c]) + [%c]\n\n",
+			function->m, function->t, function->c, function->b);
 	} else {
 		char b_sign = '+';
 		char c_sign = '+';
@@ -97,8 +98,8 @@ void showCosine(struct Function* function, int option)
 		if (function->c_val < 0) {
 			c_sign = '-';
 		}
-		printf("\ty = %.2fcos(x %c %.2f) %c %.2f\n",
-			function->m_val, c_sign, fabs(function->c_val), b_sign, fabs(function->b_val));
+		printf("\ty = %.2fcos(%.2fx %c %.2f) %c %.2f\n",
+			function->m_val, function->t_val, c_sign, fabs(function->c_val), b_sign, fabs(function->b_val));
 	}
 }
 
