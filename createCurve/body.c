@@ -17,7 +17,7 @@ int menu(void)
 {
 	int selection;
 	struct Function function = {
-		{ 0 }, 'm', 0, 'b', 0, 'c', 0, 50
+		{ 0 }, 'm', 0, 'b', 0, 'c', 0, 't', 0, 50
 	};
 
 	printf("|---- Enter Number to Select ----|\n\n"
@@ -103,38 +103,50 @@ void getUserInpt(struct Function *function)
 
 		showMyFunc(function);
 
-		printf("\nSelect a constant to adjust ('m', 'b', or 'c'): ");
+		printf("\nSelect a constant to adjust ('m', 't', 'c' or 'b'): ");
 		do {
 			scanf("%c", &val);
 			if (val != 'm' && val != 'b' && val != 'c') {
 				clearKeyboard();
-				printf("\n<Invalid entry! please enter 'm', 'b', or 'c'> ");
+				printf("\n<Invalid entry! please enter 'm', 't', 'c' or 'b'> ");
 			}
-		} while (val != 'm' && val != 'b' && val != 'c');
+		} while (val != 'm' && val != 'b' && val != 'c' && val != 't');
 
 		switch (val) {
 		case 'm':
 			system("cls");
 			getInt(&function->m_val, 'm');
+			printf("|--- Review Your Updated Function Below ---|\n\n");
 			showMyFunc(function);
 			clearKeyboard();
-			printf("\n\nIs your function ready for output to file (y/n)? ");
+			printf("\nIs your function ready for output to file (y/n)? ");
 			y_or_n = yes_or_no();
 			break;
 		case 'b':
 			system("cls");
 			getInt(&function->b_val, 'b');
+			printf("|--- Review Your Updated Function Below ---|\n\n");
 			showMyFunc(function);
 			clearKeyboard();
-			printf("\n\nIs your function ready for output to file (y/n)? ");
+			printf("\nIs your function ready for output to file (y/n)? ");
 			y_or_n = yes_or_no();
 			break;
 		case 'c':
 			system("cls");
 			getInt(&function->c_val, 'c');
+			printf("|--- Review Your Updated Function Below ---|\n\n");
 			showMyFunc(function);
 			clearKeyboard();
-			printf("\n\nIs your function ready for output to file (y/n)? ");
+			printf("\nIs your function ready for output to file (y/n)? ");
+			y_or_n = yes_or_no();
+			break;
+		case 't':
+			system("cls");
+			getInt(&function->t_val, 't');
+			printf("|--- Review Your Updated Function Below ---|\n\n");
+			showMyFunc(function);
+			clearKeyboard();
+			printf("\nIs your function ready for output to file (y/n)? ");
 			y_or_n = yes_or_no();
 			break;
 		}
@@ -157,7 +169,7 @@ void getUserInpt(struct Function *function)
 		break;
 	}
 
-	printf("Your file has been successfully created.\n");
+	printf("Your file has been successfully created.\n\n");
 	pause();
 	system("cls");
 }
@@ -259,7 +271,7 @@ void printSin(struct Function *function)
 	double y_strt, x_strt;
 
 	x_strt = -4.5;
-	y_strt = sin(x_strt + (double)function->c_val);
+	y_strt = sin(x_strt * (double)function->t_val + (double)function->c_val);
 	y_strt *= (double)function->m_val;
 	y_strt += (double)function->b_val;
 	createFileName(filename);
@@ -275,7 +287,7 @@ void printSin(struct Function *function)
 	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -(y_strt * function->scale) + 300);
 	for (i = 0; i < SHEET_SIZE; i++) {
 		x = x_strt + (double)i / 1000;
-		y = sin(x + (double)function->c_val);
+		y = sin(x * (double)function->t_val + (double)function->c_val);
 		y *= (double)function->m_val;
 		y += (double)function->b_val;
 
@@ -301,7 +313,7 @@ void printCos(struct Function *function)
 	double y_strt, x_strt;
 
 	x_strt = -4.5;
-	y_strt = cos(x_strt + (double)function->c_val);;
+	y_strt = cos(x_strt * (double)function->t_val + (double)function->c_val);
 	y_strt *= (double)function->m_val;
 	y_strt += (double)function->b_val;
 	createFileName(filename);
@@ -316,8 +328,8 @@ void printCos(struct Function *function)
 	printGraph(csvfp);
 	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -(y_strt * function->scale) + 300);
 	for (i = 0; i < SHEET_SIZE; i++) {
-		x = x_strt + (double)i / 10;
-		y = cos(x + (double)function->c_val);
+		x = x_strt + (double)i / 1000;
+		y = cos(x * (double)function->t_val + (double)function->c_val);
 		y *= (double)function->m_val;
 		y += (double)function->b_val;
 
