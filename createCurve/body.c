@@ -17,7 +17,7 @@ int menu(void)
 {
 	int selection;
 	struct Function function = {
-		{ 0 }, 'm', 0, 'b', 0, 'c', 0
+		{ 0 }, 'm', 0, 'b', 0, 'c', 0, 50
 	};
 
 	printf("|---- Enter Number to Select ----|\n\n"
@@ -77,6 +77,17 @@ void showMyFunc(struct Function *function) {
 	};
 }
 
+// getScale function takes a scale as input from the user for the 
+// graphical output
+//
+void getScale(struct Function *function)
+{
+	printf("\nEnter a scale for your graph: ");
+	scanf("%f", &function->scale);
+	function->scale = 50 / function->scale;
+	clearKeyboard();
+}
+
 // getUserInpt function takes a structure function which corresponds to a 
 // selection option. The function prints out and the user replaces the 
 // the values of the constants with those of their desired curve.
@@ -129,6 +140,8 @@ void getUserInpt(struct Function *function)
 		}
 	} while (y_or_n == 0);
 
+	getScale(function);
+
 	switch (function->type) {
 	case 'L':
 		printLin(function);
@@ -151,7 +164,7 @@ void getUserInpt(struct Function *function)
 
 
 // printLin function takes the user appended linear function from getUserInpt 
-// and it prints ~10000 x and y coordinate pairs to a CSV file.
+// and it prints ~10000 x and y coordinate pairs to a SVG file.
 //
 void printLin(struct Function *function)
 {
@@ -172,25 +185,28 @@ void printLin(struct Function *function)
 		"<?xml version = \"1.0\" encoding = \"UTF-8\"?>\n"
 		"<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n"
 		"<?xml-stylesheet href = \"\" type = \"text/css\"?>\n"
-		"<svg width=\"900\" height=\"600\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+		"<svg width=\"1350\" height=\"650\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+		"<g transform=\"translate(25, 25)\" id=\"graph\">\n");
 	printGraph(csvfp);
-	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -y_strt + 300);
+	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -(y_strt * function->scale) + 300);
 	for (i = 0; i < SHEET_SIZE; i++) {
 		x = (double)x_strt + (double)i / 10;
 		y = x + (double)function->c_val;
 		y *= (double)function->m_val;
 		y += (double)function->b_val;
 
-		fprintf(csvfp, "%lf %lf\n", x + 450, -y + 300);
+		fprintf(csvfp, "%lf %lf\n", (x * function->scale) + 450, -(y * function->scale) + 300);
 	}
 	fprintf(csvfp, "\" />\n"
 		"<rect x=\"0\" y=\"0\" width=\"900\" height=\"600\" stroke-width=\"3px\" fill=\"none\" stroke=\"black\"/>\n"
-		"</svg>");
+		"</g>");
+	printLegend(csvfp, function);
+	fprintf(csvfp, "</svg>");
 	fclose(csvfp);
 }
 
 // printQuad function takes the user appended quadratic function from getUserInpt 
-// and it prints ~10000 x and y coordinate pairs to a CSV file.
+// and it prints ~10000 x and y coordinate pairs to a SVG file.
 //
 void printQuad(struct Function *function)
 {
@@ -211,25 +227,28 @@ void printQuad(struct Function *function)
 		"<?xml version = \"1.0\" encoding = \"UTF-8\"?>\n"
 		"<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n"
 		"<?xml-stylesheet href = \"\" type = \"text/css\"?>\n"
-		"<svg width=\"900\" height=\"600\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+		"<svg width=\"1350\" height=\"650\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+		"<g transform=\"translate(25, 25)\" id=\"graph\">\n");
 		printGraph(csvfp);
-	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -y_strt + 300);
+	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -(y_strt * function->scale) + 300);
 	for (i = 1; i < SHEET_SIZE; i++) {
 		x = (double)x_strt + (double)i / 10;
 		y = pow((x + (double)function->c_val), 2);
 		y *= (double)function->m_val;
 		y += (double)function->b_val;
 
-		fprintf(csvfp, "%lf %lf\n", x - x_strt, -y + 300);
+		fprintf(csvfp, "%lf %lf\n", (x * function->scale) + 450, -(y * function->scale) + 300);
 	}
 	fprintf(csvfp, "\" />\n"
 		"<rect x=\"0\" y=\"0\" width=\"900\" height=\"600\" stroke-width=\"3px\" fill=\"none\" stroke=\"black\"/>\n"
-		"</svg>");
+		"</g>");
+	printLegend(csvfp, function);
+	fprintf(csvfp, "</svg>");
 	fclose(csvfp);
 }
 
 // printSin function takes the user appended sine function from getUserInpt 
-// and it prints ~10000 x and y coordinate pairs to a CSV file.
+// and it prints ~10000 x and y coordinate pairs to a SVG file.
 //
 void printSin(struct Function *function)
 {
@@ -250,25 +269,28 @@ void printSin(struct Function *function)
 		"<?xml version = \"1.0\" encoding = \"UTF-8\"?>\n"
 		"<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n"
 		"<?xml-stylesheet href = \"\" type = \"text/css\"?>\n"
-		"<svg width=\"900\" height=\"600\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+		"<svg width=\"1350\" height=\"650\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+		"<g transform=\"translate(25, 25)\" id=\"graph\">\n");
 	printGraph(csvfp);
-	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -(y_strt * 100) + 300);
+	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -(y_strt * function->scale) + 300);
 	for (i = 0; i < SHEET_SIZE; i++) {
 		x = x_strt + (double)i / 1000;
 		y = sin(x + (double)function->c_val);
 		y *= (double)function->m_val;
 		y += (double)function->b_val;
 
-		fprintf(csvfp, "%lf %lf\n", (x * 100) + 450, -(y * 100) + 300);
+		fprintf(csvfp, "%lf %lf\n", (x * function->scale) + 450, -(y * function->scale) + 300);
 	}
 	fprintf(csvfp, "\" />\n"
 		"<rect x=\"0\" y=\"0\" width=\"900\" height=\"600\" stroke-width=\"3px\" fill=\"none\" stroke=\"black\"/>\n"
-		"</svg>");
+		"</g>");
+	printLegend(csvfp, function);
+	fprintf(csvfp, "</svg>");
 	fclose(csvfp);
 }
 
 // printCos function takes the user appended linear cosine from getUserInpt 
-// and it prints ~10000 x and y coordinate pairs to a CSV file.
+// and it prints ~10000 x and y coordinate pairs to a SVG file.
 //
 void printCos(struct Function *function)
 {
@@ -289,19 +311,22 @@ void printCos(struct Function *function)
 		"<?xml version = \"1.0\" encoding = \"UTF-8\"?>\n"
 		"<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n"
 		"<?xml-stylesheet href = \"\" type = \"text/css\"?>\n"
-		"<svg width=\"900\" height=\"600\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+		"<svg width=\"1350\" height=\"650\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+		"<g transform=\"translate(25, 25)\" id=\"graph\">\n");
 	printGraph(csvfp);
-	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -(y_strt * 100) + 300);
+	fprintf(csvfp, "<path fill=\"none\" stroke=\"#FF0000\" stroke-width=\"2px\" d=\"M0 %lf L", -(y_strt * function->scale) + 300);
 	for (i = 0; i < SHEET_SIZE; i++) {
 		x = x_strt + (double)i / 10;
 		y = cos(x + (double)function->c_val);
 		y *= (double)function->m_val;
 		y += (double)function->b_val;
 
-		fprintf(csvfp, "%lf %lf\n", (x * 100) + 450, -(y * 100) + 300);
+		fprintf(csvfp, "%lf %lf\n", (x * function->scale) + 450, -(y * function->scale) + 300);
 	}
 	fprintf(csvfp, "\" />\n"
 		"<rect x=\"0\" y=\"0\" width=\"900\" height=\"600\" stroke-width=\"3px\" fill=\"none\" stroke=\"black\"/>\n"
-		"</svg>");
+		"</g>");
+	printLegend(csvfp, function);
+	fprintf(csvfp, "</svg>");
 	fclose(csvfp);
 }
