@@ -15,11 +15,12 @@
 struct Function {
 	char type;
 	char m;
-	int m_val;
+	float m_val;
 	char b;
-	int b_val;
+	float b_val;
 	char c;
-	int c_val;
+	float c_val;
+	float scale;
 };
 
 // menu function takes no parameters and displays the options list 
@@ -28,6 +29,11 @@ struct Function {
 // program will finish running
 //
 int menu(void);
+
+// getScale function takes a scale as input from the user for the 
+// graphical output
+//
+void getScale(struct Function *function);
 
 // getUserInpt function takes a structure function which corresponds to a 
 // selection option. The function prints out and the user replaces the 
