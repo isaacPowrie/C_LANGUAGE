@@ -31,8 +31,8 @@ void showLinear(struct Function* function, int option)
 		if (function->c_val < 0) {
 			c_sign = '-';
 		}
-		printf("\ty = %d(x %c %d) %c %d\n",
-			function->m_val, c_sign, abs(function->c_val), b_sign, abs(function->b_val));
+		printf("\ty = %.2f(x %c %.2f) %c %.2f\n",
+			function->m_val, c_sign, fabs(function->c_val), b_sign, fabs(function->b_val));
 	}
 }
 
@@ -53,8 +53,8 @@ void showQuad(struct Function* function, int option)
 		if (function->c_val < 0) {
 			c_sign = '-';
 		}
-		printf("\ty = %d(x %c %d)^2 %c %d\n",
-			function->m_val, c_sign, abs(function->c_val), b_sign, abs(function->b_val));
+		printf("\ty = %.2f(x %c %.2f)^2 %c %.2f\n",
+			function->m_val, c_sign, fabs(function->c_val), b_sign, fabs(function->b_val));
 	}
 }
 
@@ -75,8 +75,8 @@ void showSine(struct Function* function, int option)
 		if (function->c_val < 0) {
 			c_sign = '-';
 		}
-		printf("\ty = %dsin(x %c %d) %c %d\n",
-			function->m_val, c_sign, abs(function->c_val), b_sign, abs(function->b_val));
+		printf("\ty = %.2fsin(x %c %.2f) %c %.2f\n",
+			function->m_val, c_sign, fabs(function->c_val), b_sign, fabs(function->b_val));
 	}
 }
 
@@ -97,8 +97,8 @@ void showCosine(struct Function* function, int option)
 		if (function->c_val < 0) {
 			c_sign = '-';
 		}
-		printf("\ty = %dcos(x %c %d) %c %d\n",
-			function->m_val, c_sign, abs(function->c_val), b_sign, abs(function->b_val));
+		printf("\ty = %.2fcos(x %c %.2f) %c %.2f\n",
+			function->m_val, c_sign, fabs(function->c_val), b_sign, fabs(function->b_val));
 	}
 }
 
@@ -158,10 +158,10 @@ int option_in_range(int min, int max)
 
 // Allows user to enter integer into function
 //
-void getInt(int *chng_var, char constant)
+void getInt(float *chng_var, char constant)
 {
 	printf("Enter a new value for '%c': ", constant);
-	scanf("%d", chng_var);
+	scanf("%f", chng_var);
 	system("cls");
 }
 
@@ -203,4 +203,17 @@ void printGraph(FILE * svg)
 		fprintf(svg, "m -4 50 l 4 0\n");
 	}
 	fprintf(svg, "\"/>\n");
+}
+
+// Print units legend
+//
+void printLegend(FILE *svg, struct Function *function)
+{
+	fprintf(svg, "<g id=\"message\">\n"
+		"<rect x=\"975\" y=\"225\" width=\"350\" height=\"200\" stroke-width=\"1px\" fill=\"none\" stroke=\"black\"/>"
+		"<text x=\"1065\" y=\"300\" font-size=\"20px\">UNIT AND SCALE:</text>"
+		"<path fill=\"none\" stroke=\"grey\" stroke-width=\"1px\" d=\"M 1090 335 l 50 0 m -50 -4 l 0 8 m 50 0 l 0 -8\"/>"
+		"<path fill=\"none\" stroke=\"black\" stroke-width=\"1px\" d=\"M 1160 332.5 l 7 0 M 1160 337.5 l 7 0\"/>"
+		"<text x=\"1183\" y=\"342\" font-size=\"20px\">%.2f</text>"
+		"</g>", 50/function->scale);
 }
