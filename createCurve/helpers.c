@@ -193,15 +193,15 @@ void printGraph(FILE * svg)
 	fprintf(svg, 
 		"<path fill=\"none\" stroke=\"grey\" stroke-width=\"1px\" d=\"M 0 300 L 900 300 Z M 450 0 L 450 600 Z\" />\n"
 		"<path fill=\"none\" stroke=\"grey\" stroke-width=\"1px\" d=\" \n"
-		"M 50 298 l 0 4\n");
+		"M 50 296 l 0 8\n");
 	for (i = 0; i < 16; i++) {
-		fprintf(svg, "m 50 -4 l 0 4\n");
+		fprintf(svg, "m 50 -8 l 0 8\n");
 	}
 	fprintf(svg, "\"/>\n");
 	fprintf(svg, "<path fill=\"none\" stroke=\"grey\" stroke-width=\"1px\" d=\" \n"
-		"M 448 50 l 4 0\n");
+		"M 446 50 l 8 0\n");
 	for (i = 0; i < 10; i++) {
-		fprintf(svg, "m -4 50 l 4 0\n");
+		fprintf(svg, "m -8 50 l 8 0\n");
 	}
 	fprintf(svg, "\"/>\n");
 }
