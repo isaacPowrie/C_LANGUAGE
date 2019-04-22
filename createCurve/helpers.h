@@ -54,11 +54,11 @@ int yes_or_no(void);
 //
 int option_in_range(int min, int max);
 
-// Allows user to enter integer into function,
+// Allows user to enter float into function,
 // displays constant signifier (char) and takes
-// int to be changed (int *)
+// float to be changed (float *)
 //
-void getInt(int *, char);
+void getInt(float *, char);
 
 // Get name for file, takes an empty string and
 // obtains user input for filename
@@ -72,5 +72,9 @@ void pause(void);
 // Print graph image svg
 //
 void printGraph(FILE * svg);
+
+// Print units legend
+//
+void printLegend(FILE *svg, struct Function *function);
 
 #endif //FUNCSHELPS
