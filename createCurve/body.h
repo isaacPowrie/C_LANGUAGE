@@ -20,6 +20,8 @@ struct Function {
 	float b_val;
 	char c;
 	float c_val;
+	char t;
+	float t_val;
 	float scale;
 };
 
